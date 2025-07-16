@@ -474,7 +474,7 @@
 import streamlit as st
 import joblib
 import pandas as pd
-import os # Import the os module for path operations and directory listing
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -618,60 +618,19 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- DEBUGGING INFORMATION ---
-st.header("Debugging Information (Temporary)")
-
-# Print current working directory
-current_working_directory = os.getcwd()
-st.write(f"Current Working Directory: `{current_working_directory}`")
-
-# List contents of the current directory
-st.subheader("Contents of Current Working Directory:")
-try:
-    current_dir_contents = os.listdir(current_working_directory)
-    for item in current_dir_contents:
-        st.write(f"- `{item}`")
-except Exception as e:
-    st.error(f"Error listing current directory: {e}")
-
-# List contents of 'Saving_The_Best_Model_Resources'
-st.subheader("Contents of Saving_The_Best_Model_Resources:")
-try:
-    model_resources_path = os.path.join(current_working_directory, 'Saving_The_Best_Model_Resources')
-    if os.path.exists(model_resources_path):
-        model_dir_contents = os.listdir(model_resources_path)
-        for item in model_dir_contents:
-            st.write(f"- `{item}`")
-    else:
-        st.error(f"Path does not exist: `{model_resources_path}`")
-except Exception as e:
-    st.error(f"Error listing model resources directory: {e}")
-
-# List contents of 'data'
-st.subheader("Contents of data directory:")
-try:
-    data_path = os.path.join(current_working_directory, 'data')
-    if os.path.exists(data_path):
-        data_dir_contents = os.listdir(data_path)
-        for item in data_dir_contents:
-            st.write(f"- `{item}`")
-    else:
-        st.error(f"Path does not exist: `{data_path}`")
-except Exception as e:
-    st.error(f"Error listing data directory: {e}")
-
-st.header("End Debugging Information")
-# --- END DEBUGGING INFORMATION ---
-
-
 # --- Path Definitions ---
-MODEL_DIR = 'Saving_The_Best_Model_Resources'
+# Get the directory where app.py is located
+BASE_DIR = os.path.dirname(__file__)
+
+MODEL_DIR = os.path.join(BASE_DIR, 'Saving_The_Best_Model_Resources')
 MODEL_PATH = os.path.join(MODEL_DIR, 'gradient_boosting_sklearn_model.joblib')
 SCALER_PATH = os.path.join(MODEL_DIR, 'scaler.joblib')
 Y_TEST_PATH = os.path.join(MODEL_DIR, 'y_test.joblib')
 Y_PRED_GB_PATH = os.path.join(MODEL_DIR, 'y_pred_gb.joblib')
 FEATURE_NAMES_PATH = os.path.join(MODEL_DIR, 'feature_names.joblib')
-RFM_DATA_PATH = os.path.join('data', 'rfm_features_enhanced.xlsx')
+
+DATA_DIR = os.path.join(BASE_DIR, 'data') # Define data directory similarly
+RFM_DATA_PATH = os.path.join(DATA_DIR, 'rfm_features_enhanced.xlsx')
 
 # --- Load All Resources (Cached) ---
 @st.cache_resource
